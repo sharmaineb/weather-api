@@ -34,35 +34,35 @@
     </p>
       <form id="form">
         <input 
-          id="zip" 
+          id="zipInput" 
           type="number" 
           placeholder="zip code"
-          title="Please Enter a valid Zip Code"
+          title="Please Enter Zip Code"
           pattern="^\d{5}(?:[-\s]\d{4})?$"
         >
         <button type="submit">Search</button>
       </form>
       <form id="form2">
         <input 
-          id="city" 
+          id="cityInput" 
           type="text" 
           placeholder="city name"
-          title="Please Enter a valid city"
+          title="Please Enter City Name"
         >
         <button type="submit">Search</button>
       </form>
       <form id="form3" style="display: flex; ">
         <input 
-          id="lat" 
+          id="latInput" 
           type="number" 
           placeholder="Latitude"
-          title="Please Enter a latitude"
-          >
+          title="Please Enter Latitude"
+        >
         <input 
-        id="lon" 
+        id="lonInput" 
         type="number" 
         placeholder="Longitude"
-        title="Please Enter a longtitude"
+        title="Please Enter Longitude"
       >
         <button type="submit">Search</button>
       </form>
@@ -76,9 +76,9 @@
       const formEl = document.getElementById('form')
       const formEl2 = document.getElementById('form2')  
       const formEl3 = document.getElementById('form3')   
-      const latit = document.getElementById('lat')
-      const long = document.getElementById('lon')
-      const zipInput = document.getElementById('zip')
+      const latInput = document.getElementById('latInput') 
+      const lonInput = document.getElementById('lonInput') 
+      const zipInput = document.getElementById('zipInput') 
       const coordLat = document.getElementById('coordLat')
       const coordLon = document.getElementById('coordLon')
       const humidity = document.getElementById('humidity')
@@ -92,9 +92,9 @@
         const zip = zipInput.value
         getWeatherZip('5b2a3ac51ca2548d2dba617969b9ffb2', zip)
        .then((json) => {
-          tempEl.innerHTML = json.temp
+          tempEl.innerHTML = json.temperature
           name.innerHTML = json.name
-          descEl.innerHTML = json.desc
+          descEl.innerHTML = json.description
           coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
           coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
           humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
@@ -105,13 +105,13 @@
       })
         formEl2.addEventListener('submit', (e) => {
         e.preventDefault()
-        const q = city.value
-        getWeatherCity('5b2a3ac51ca2548d2dba617969b9ffb2', q)
+        const city = cityInput.value
+        getWeatherCity('5b2a3ac51ca2548d2dba617969b9ffb2', city)
        .then((json) => {
         console.log(json)
-          tempEl.innerHTML = json.temp
+          tempEl.innerHTML = json.temperature
           name.innerHTML = json.name
-          descEl.innerHTML = json.desc
+          descEl.innerHTML = json.description
           coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
           coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
           humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
@@ -122,14 +122,14 @@
       })
         formEl3.addEventListener('submit', (e) => {
         e.preventDefault()
-        const lat = latit.value
-        const lon = long.value
+        const lat = latInput.value
+        const lon = lonInput.value
         getWeatherGeo('5b2a3ac51ca2548d2dba617969b9ffb2', lat, lon)
        .then((json) => {
         console.log(json)
-          tempEl.innerHTML = json.temp
+          tempEl.innerHTML = json.temperature
           name.innerHTML = json.name
-          descEl.innerHTML = json.desc
+          descEl.innerHTML = json.description
           coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
           coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
           humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
