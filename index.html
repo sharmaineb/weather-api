@@ -12,6 +12,26 @@
       <p id="desc">
         <!-- description -->
       </p>
+      <div style="font-size: 15px; display: flex;">
+      <div style="display: flex; flex-direction: column;">
+        <p id="coordLat">
+        </p>
+        <p id="coordLon">
+        </p>
+        <p id="humidity">
+        </p>
+      </div>
+      <div style="display: flex;  flex-direction: column; padding-left: 20px;">
+        <p id="pressure">
+        </p>
+        <p id="tempMax">
+        </p>
+        <p id="tempMin">
+        </p>
+      </div>
+    </div>
+    <p id="name">
+    </p>
       <form id="form">
         <input 
           id="zip" 
@@ -22,40 +42,102 @@
         >
         <button type="submit">Search</button>
       </form>
+      <form id="form2">
+        <input 
+          id="city" 
+          type="text" 
+          placeholder="city name"
+          title="Please Enter a valid city"
+        >
+        <button type="submit">Search</button>
+      </form>
+      <form id="form3" style="display: flex; ">
+        <input 
+          id="lat" 
+          type="number" 
+          placeholder="Latitude"
+          title="Please Enter a latitude"
+          >
+        <input 
+        id="lon" 
+        type="number" 
+        placeholder="Longitude"
+        title="Please Enter a longtitude"
+      >
+        <button type="submit">Search</button>
+      </form>
     </div>
+    <script src="weather.js" type="module"></script>
+    <script type="module">
+    import { getWeatherZip, getWeatherCity, getWeatherGeo } from './weather.js';  
 
-    <script>
-      // ------------------------------------------------------
-      // Developer Code
-
-      // Get Element refererences
       const tempEl = document.getElementById('temp')
       const descEl = document.getElementById('desc')
       const formEl = document.getElementById('form')
+      const formEl2 = document.getElementById('form2')  
+      const formEl3 = document.getElementById('form3')   
+      const latit = document.getElementById('lat')
+      const long = document.getElementById('lon')
       const zipInput = document.getElementById('zip')
+      const coordLat = document.getElementById('coordLat')
+      const coordLon = document.getElementById('coordLon')
+      const humidity = document.getElementById('humidity')
+      const pressure = document.getElementById('pressure')
+      const tempMax = document.getElementById('tempMax')
+      const tempMin = document.getElementById('tempMin')
+      const name = document.getElementById('name')
 
-      // Define event listeners
       formEl.addEventListener('submit', (e) => {
         e.preventDefault()
         const zip = zipInput.value
-        getWeather(zip)
+        getWeatherZip('5b2a3ac51ca2548d2dba617969b9ffb2', zip)
+       .then((json) => {
+          tempEl.innerHTML = json.temp
+          name.innerHTML = json.name
+          descEl.innerHTML = json.desc
+          coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
+          coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
+          humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
+          pressure.innerHTML = 'Pressure:' + ' ' + json.pressure
+          tempMax.innerHTML = 'Max temp:' + ' ' + json.tempMax
+          tempMin.innerHTML = 'Min temp:' + ' ' + json.tempMin
+        }, (error) => { console.log(error) })
       })
-
-      // Functions 
-    function getWeather(zip) {
-      // Replace this with your own API key!
-      const apiKey = '467355df4c808dd6134a3b64e9ace282'
-      const units = 'imperial'
-      const path = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apiKey}&units=${units}`
-      fetch(path)
-        .then(res => res.json())
-        .then(json => {
-          tempEl.innerHTML = json.main.temp
-          descEl.innerHTML = json.weather[0].description
-        })
-        .catch(err => console.log(err.message))
-    }
-           
+        formEl2.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const q = city.value
+        getWeatherCity('5b2a3ac51ca2548d2dba617969b9ffb2', q)
+       .then((json) => {
+        console.log(json)
+          tempEl.innerHTML = json.temp
+          name.innerHTML = json.name
+          descEl.innerHTML = json.desc
+          coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
+          coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
+          humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
+          pressure.innerHTML = 'Pressure:' + ' ' + json.pressure
+          tempMax.innerHTML = 'Max temp:' + ' ' + json.tempMax
+          tempMin.innerHTML = 'Min temp:' + ' ' + json.tempMin
+        }, (error) => { console.log(error) })
+      })
+        formEl3.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const lat = latit.value
+        const lon = long.value
+        getWeatherGeo('5b2a3ac51ca2548d2dba617969b9ffb2', lat, lon)
+       .then((json) => {
+        console.log(json)
+          tempEl.innerHTML = json.temp
+          name.innerHTML = json.name
+          descEl.innerHTML = json.desc
+          coordLat.innerHTML = 'Latitude:' + ' ' + json.coordLat
+          coordLon.innerHTML = 'Longitude:' + ' ' + json.coordLon
+          humidity.innerHTML = 'Humidity:' + ' ' + json.humidity
+          pressure.innerHTML = 'Pressure:' + ' ' + json.pressure
+          tempMax.innerHTML = 'Max temp:' + ' ' + json.tempMax
+          tempMin.innerHTML = 'Min temp:' + ' ' + json.tempMin
+        }, (error) => { console.log(error) })
+      })           
     </script>
   </body>
 </html>
